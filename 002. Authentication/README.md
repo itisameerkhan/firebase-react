@@ -229,3 +229,67 @@ AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY: {
     readonly INVALID_REQ_TYPE: "auth/invalid-req-type";
 }
 ```
+
+---
+
+## 🔥 `onAuthStateChanged`
+
+### ⚡ Set an authentication state observer and get user data
+
+For each of your app's pages that need information about the signed-in user, attach an observer to the global authentication object. This observer gets called whenever the user's sign-in state changes.
+
+Attach the observer using the `onAuthStateChanged` method. When a user successfully signs in, you can get information about the user in the observer.
+
+`onAuthStateChanged` is a method provided by Firebase that you can use to monitor the authentication state of a user. It helps in determining if a user is currently logged in or logged out and can be particularly useful for applications where user authentication status is crucial, such as those with personalized content or restricted access. In a React application, you typically use this method within a useEffect hook to keep track of the user's authentication state in real-time.
+
+### ⚡ Explanation
+
+- **Purpose**: `onAuthStateChanged` sets an observer on the Auth object to get the current user state. Whenever the user's authentication state changes, this observer is triggered. This is useful for determining if a user is logged in or out, and to update the UI accordingly.
+
+- **Usage**: You use it within a useEffect hook to run the observer when the component mounts and clean up when the component unmounts.
+
+- **Parameters**: It takes a callback function that receives the user object if the user is logged in, or null if the user is logged out.
+
+> Home.jsx
+```jsx
+import { auth } from "../../config/firebase";
+import { onAuthStateChanged } from "firebase/auth";
+```
+
+> Home.jsx
+```jsx
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log(user.uid);
+      console.log(user.email);
+    } else {
+      console.log("user not logged in.");
+    }
+  });
+
+  return () => {
+    unsubscribe();
+  };
+}, []);
+```
+
+> [!IMPORTANT]
+>  when you call the `unsubscribe` function returned by onAuthStateChanged, it automatically stops listening for authentication state changes. This is essential for cleaning up the observer and preventing memory leaks when your component unmounts. 
+
+1. **`onAuthStateChanged`**: This function registers an observer for changes to the user's sign-in state. It returns an unsubscribe function that you can call to remove the observer.
+
+2. **`unsubscribe`**: When called, this function unregisters the observer, stopping any further updates to your callback when the authentication state changes.
+
+> [!IMPORTANT]
+> `onAuthStateChanged` in Firebase is not an asynchronous function. It registers an observer that gets called whenever the user's sign-in state changes.
+
+**`onAuthStateChanged` is used to set up a listener that triggers a callback function whenever there is a change in the user's authentication state. It can detect when a user signs in, signs out, or when their token is refreshed.**
+
+### ⚡ KEY POINTS
+
+1. **Non-async**: `onAuthStateChanged` is not an asynchronous function. It immediately registers the observer and returns an unsubscribe function.
+
+2. **Real-time Updates**: The callback passed to `onAuthStateChanged` is called immediately with the current authentication state and whenever the authentication state changes.
+
+3. **Proper Cleanup**: Always ensure to remove the observer by calling the unsubscribe function returned by `onAuthStateChanged` in your cleanup function within `useEffect`.
