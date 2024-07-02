@@ -122,12 +122,11 @@ const Auth = () => {
         setLoading(false);
         return;
       }
-      const response = await signInWithEmailAndPassword(
+      await signInWithEmailAndPassword(
         auth,
-        data.email,
-        data.password
+        "someone@example.com",
+        "password"
       );
-      console.log(response);
       navigate("/home");
     } catch (e) {
       if (e.code === AuthErrorCodes.INVALID_IDP_RESPONSE) {
