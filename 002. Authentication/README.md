@@ -332,4 +332,17 @@ updateProfile(auth.currentUser, {
   });
 ```
 
----
+> [!IMPORTANT]
+> When you use the updateProfile method in Firebase Authentication to update a user's profile, such as setting a photo URL, it updates the profile information stored in Firebase. This change does not affect the user's email address or their Google account photo outside of your Firebase project. It only changes the photo URL for the profile associated with your Firebase Authentication user.
+
+```jsx
+try {
+  const response = await updateProfile(auth.currentUser, {
+    displayName: updateUser.displayName,
+    photoURL: updateUser.photoURL,
+  });
+  console.log(response);
+} catch (e) {
+  console.log(e);
+}
+```
