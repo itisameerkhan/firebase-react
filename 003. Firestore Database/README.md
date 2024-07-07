@@ -134,3 +134,40 @@ const getMovies = async () => {
 ```
 
 ---
+
+## 🔥 DELETE DATA
+> Home.js
+
+```jsx
+import { db } from "../../config/firebase";
+import { getDocs, collection, addDoc } from "firebase/firestore";
+```
+
+> Home.jsx
+
+```jsx
+const handleDelete = async(movieID) => {
+  const movie = doc(db, "movies", movieID);
+  await deletedoc(movie);
+}
+```
+
+---
+
+## 🔥 DATA TYPES
+
+Here's the data types in Firestore in a table format:
+
+| Data Type    | Description                                                                                   | Example                                                                            |
+|--------------|-----------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
+| String       | Textual data                                                                                  | `"name": "John Doe"`                                                               |
+| Number       | Numeric data, can be an integer or floating-point                                             | `"age": 30`                                                                        |
+| Boolean      | A true or false value                                                                         | `"isActive": true`                                                                 |
+| Map          | An object containing key-value pairs, similar to JSON objects                                 | `"address": {"city": "San Francisco", "state": "CA"}`                              |
+| Array        | An ordered list of values                                                                     | `"tags": ["developer", "javascript"]`                                              |
+| Null         | A null value                                                                                  | `"middleName": null`                                                               |
+| Timestamp    | A point in time, typically used to store dates and times                                      | `"createdAt": {"seconds": 1616161616, "nanoseconds": 123000000}`                   |
+| Geolocation  | A geographical point with latitude and longitude                                              | `"location": {"latitude": 37.7749, "longitude": -122.4194}`                        |
+| Reference    | A reference to a document located in Firestore                                                | `"userRef": "users/userID123"`                                                     |
+| Binary (Blob)| Binary data (up to 1 MiB in size)                                                             | `"profilePicture": Blob data`                                                      |
+
